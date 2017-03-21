@@ -3,8 +3,7 @@ var fs = require("fs"),
 	path = require("path"),
 	exec = require("child_process").exec;
 
-var gpioAdmin = "gpio-admin",
-	sysFsPathOld = "/sys/devices/virtual/gpio", // pre 3.18.x kernel
+var sysFsPathOld = "/sys/devices/virtual/gpio", // pre 3.18.x kernel
 	sysFsPathNew = "/sys/class/gpio", // post 3.18.x kernel
 	sysFsPath;
 
@@ -135,14 +134,9 @@ var gpio = {
 		}
 
 		options = sanitizeOptions(options);
-
-		exec(gpioAdmin + " export " + pinMapping[pinNumber] + " " + options.pull, handleExecResponse("open", pinNumber, function(err) {
-			if (err) return (callback || noop)(err);
-
-			gpio.setDirection(pinNumber, options.direction, callback);
-		}));
+		
+		exec("gpio export " + pinMapping[pinNumber] + " " + options.direction, handleExecResponse("open", pinNumber, callback || noop));
 	},
-
 	setDirection: function(pinNumber, direction, callback) {
 		pinNumber = sanitizePinNumber(pinNumber);
 		direction = sanitizeDirection(direction);
@@ -162,8 +156,8 @@ var gpio = {
 
 	close: function(pinNumber, callback) {
 		pinNumber = sanitizePinNumber(pinNumber);
-
-		exec(gpioAdmin + " unexport " + pinMapping[pinNumber], handleExecResponse("close", pinNumber, callback || noop));
+		
+		exec("gpio unexport " + pinMapping[pinNumber], handleExecResponse("close", pinNumber, callback || noop));
 	},
 
 	read: function(pinNumber, callback) {
