@@ -1,12 +1,13 @@
-pi-gpio
+tinker-gpio
 =======
+(fork from [rakeshpai/pi-gpio](https://github.com/rakeshpai/pi-gpio).)
 
-pi-gpio is a simple node.js based library to help access the GPIO of the Raspberry Pi (Debian Wheezy). It's modelled loosely around the built-in ``fs`` module.  
+tinker-gpio is a simple node.js based library to help access the GPIO of the ASUS Tinker Board (Debian Jessie). It's modelled loosely around the built-in ``fs`` module.  
 It works with:
 * ASUS Tinker Board
 
 ```javascript
-var gpio = require("pi-gpio");
+var gpio = require("tinker-gpio");
 
 gpio.open(16, "output", function(err) {		// Open pin 16 for output
 	gpio.write(16, 1, function() {			// Set pin 16 high (1)
@@ -25,9 +26,9 @@ Ways you can help:
 
 ## About the pin configuration
 
-This couldn't have been more confusing. Raspberry Pi's physical pins are not laid out in any particular logical order. Most of them are given the names of the pins of the Broadcom chip it uses (BCM2835). There isn't even a logical relationship between the physical layout of the Raspberry Pi pin header and the Broadcom chip's pinout. The OS recognizes the names of the Broadcom chip and has nothing to do with the physical pin layout on the Pi. To add to the fun, the specs for the Broadcom chip are nearly impossible to get!
+This couldn't have been more confusing. Tinker Board's physical pins are not laid out in any particular logical order. Most of them are given the names of the pins of the Rockchip chip it uses (rk3288). There isn't even a logical relationship between the physical layout of the Tinker Board pin header and the Rockchip chip's pinout. The OS recognizes the names of the Rockchip chip and has nothing to do with the physical pin layout on the Tinker. To add to the fun, the specs for the Rockchip chip are nearly impossible to get!
 
-This library simplifies all of this (hopefully), by abstracting away the Broadcom chip details. You only need to refer to the pins as they are on the physical pin layout on the Raspberry PI. For your reference, the pin layout follows. All the pins marked "GPIO" can be used with this library, using pin numbers as below.
+This library simplifies all of this (hopefully), by abstracting away the Rockchip chip details. You only need to refer to the pins as they are on the physical pin layout on the Tinker Board. For your reference, the pin layout follows. All the pins marked "GPIO" can be used with this library, using pin numbers as below.
 
 <table>
 	<tr>
@@ -323,7 +324,7 @@ If you haven't already, get node and npm on the Pi. The simplest way is:
 
 	sudo apt-get install nodejs npm
 
-The Raspberry Pi's GPIO pins require you to be root to access them. That's totally unsafe for several reasons. To get around this problem, you should use the excellent [GPIO_API_for_C](http://dlcdnet.asus.com/pub/ASUS/mb/Linux/Tinker_Board_2GB/GPIO_API_for_C.ZIP).
+The Tinker Board's GPIO pins require you to be root to access them. That's totally unsafe for several reasons. To get around this problem, you should use the excellent [GPIO_API_for_C](http://dlcdnet.asus.com/pub/ASUS/mb/Linux/Tinker_Board_2GB/GPIO_API_for_C.ZIP).
 
 Do the following on your Tinker Board:
 
@@ -335,9 +336,9 @@ Do the following on your Tinker Board:
 	sudo chmod +x build
 	sudo ./build
 
-Next, ``cd`` to your project directory and use npm to install pi-gpio in your project.
+Next, ``cd`` to your project directory and use npm to install tinker-gpio in your project.
 
-	npm install pi-gpio
+	npm install tinker-gpio
 
 That's it!
 
@@ -349,7 +350,7 @@ Aliased to ``.export``
 
 Makes ``pinNumber`` available for use. 
 
-* ``pinNumber``: The pin number to make available. Remember, ``pinNumber`` is the physical pin number on the Pi. 
+* ``pinNumber``: The pin number to make available. Remember, ``pinNumber`` is the physical pin number on the Tinker. 
 * ``options``: (Optional) Should be a string, such as ``input`` or ``input pullup``. You can specify whether the pin direction should be `input` or `output` (or `in` or `out`). You can additionally set the internal pullup / pulldown resistor by sepcifying `pullup` or `pulldown` (or `up` or `down`). If options isn't provided, it defaults to `output`. If a direction (`input` or `output`) is not specified (eg. only `up`), then the direction defaults to `output`.
 * ``callback``: (Optional) Will be called when the pin is available for use. May receive an error as the first argument if something went wrong.
 
@@ -359,7 +360,7 @@ Aliased to ``.unexport``
 
 Closes ``pinNumber``.
 
-* ``pinNumber``: The pin number to close. Again, ``pinNumber`` is the physical pin number on the Pi.
+* ``pinNumber``: The pin number to close. Again, ``pinNumber`` is the physical pin number on the Tinker.
 * ``callback``: (Optional) Will be called when the pin is closed. Again, may receive an error as the first argument.
 
 ### .setDirection(pinNumber, direction, [callback])
@@ -403,7 +404,7 @@ Writes ``value`` to ``pinNumber``. Will obviously fail if the pin is not in the 
 ## Misc
 
 * To run tests: ``npm install && npm test`` where you've got the checkout.
-* This module was created, ``git push``'ed and ``npm publish``'ed all from the Raspberry Pi! The Pi rocks!
+* This module was created, ``git push``'ed and ``npm publish``'ed all from the Tinker Board! The Tinker rocks!
 
 ## Coming soon
 
