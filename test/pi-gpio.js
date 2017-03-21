@@ -2,6 +2,16 @@ var gpio = require("../pi-gpio"),
 	should = require("should"),
 	fs = require("fs");
 
+var sysFsPathOld = "/sys/devices/virtual/gpio", // pre 3.18.x kernel
+	sysFsPathNew = "/sys/class/gpio", // post 3.18.x kernel
+	sysFsPath;
+
+if (fs.existsSync(sysFsPathNew)) {
+	sysFsPath = sysFsPathNew;
+} else {
+	sysFsPath = sysFsPathOld; // fallback for old kernels
+}
+
 describe("pi-gpio", function() {
 	describe(".open", function() {
 		it("should open without errors", function(done) {
@@ -20,7 +30,7 @@ describe("pi-gpio", function() {
 		});
 
 		it("should set the direction correctly", function(done) {
-			fs.readFile("/sys/devices/virtual/gpio/gpio23/direction", "utf8", function(err, data) {
+			fs.readFile(sysFsPath + "/gpio23/direction", "utf8", function(err, data) {
 				should.not.exist(err);
 				data.trim().should.equal("out");
 				done();
@@ -42,7 +52,7 @@ describe("pi-gpio", function() {
 				gpio.setDirection(16, "input", function(err) {
 					should.not.exist(err);
 
-					fs.readFile("/sys/devices/virtual/gpio/gpio23/direction", "utf8", function(err, data) {
+					fs.readFile(sysFsPath + "/gpio23/direction", "utf8", function(err, data) {
 						should.not.exist(err);
 						data.trim().should.equal("in");
 						done();
@@ -71,7 +81,7 @@ describe("pi-gpio", function() {
 				gpio.write(16, "1", function(err) {
 					should.not.exist(err);
 
-					fs.readFile("/sys/devices/virtual/gpio/gpio23/value", "utf8", function(err, data) {
+					fs.readFile(sysFsPath + "/gpio23/value", "utf8", function(err, data) {
 						should.not.exist(err);
 						data.trim().should.equal("1");
 						done();
