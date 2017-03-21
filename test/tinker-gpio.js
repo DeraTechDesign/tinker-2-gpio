@@ -1,4 +1,4 @@
-var gpio = require("../pi-gpio"),
+var gpio = require("../tinker-gpio"),
 	should = require("should"),
 	fs = require("fs");
 
