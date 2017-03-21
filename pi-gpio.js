@@ -8,9 +8,9 @@ var gpioAdmin = "gpio-admin",
 	sysFsPathNew = "/sys/class/gpio", // post 3.18.x kernel
 	sysFsPath;
 
-var rev = fs.readFileSync("/proc/cpuinfo").toString().split("\n").filter(function(line) {
-	return line.indexOf("Revision") == 0;
-})[0].split(":")[1].trim();
+// var rev = fs.readFileSync("/proc/cpuinfo").toString().split("\n").filter(function(line) {
+// 	return line.indexOf("Revision") == 0;
+// })[0].split(":")[1].trim();
 
 // tests the device tree directory to determine the actual gpio path
 if (fs.existsSync(sysFsPathNew)) {
@@ -19,44 +19,44 @@ if (fs.existsSync(sysFsPathNew)) {
 	sysFsPath = sysFsPathOld; // fallback for old kernels
 }
 
-rev = parseInt(rev, 16) < 3 ? 1 : 2; // http://elinux.org/RPi_HardwareHistory#Board_Revision_History
+// rev = parseInt(rev, 16) < 3 ? 1 : 2; // http://elinux.org/RPi_HardwareHistory#Board_Revision_History
 
 var pinMapping = {
-	"3": 0,
-	"5": 1,
-	"7": 4,
-	"8": 14,
-	"10": 15,
-	"11": 17,
-	"12": 18,
-	"13": 21,
-	"15": 22,
-	"16": 23,
-	"18": 24,
-	"19": 10,
-	"21": 9,
-	"22": 25,
-	"23": 11,
-	"24": 8,
-	"26": 7,
-
+	"3": 252,
+	"5": 253,
+	"7": 17,
+	"8": 161,
+	"10": 160,
+	"11": 164,
+	"12": 184,
+	"13": 166,
+	"15": 167,
+	"16": 162,
+	"18": 163,
+	"19": 257,
+	"21": 256,
+	"22": 171,
+	"23": 254,
+	"24": 255,
+	
 	// Model A+ and Model B+ pins
-	"29": 5,
-	"31": 6,
-	"32": 12,
-	"33": 13,
-	"35": 19,
-	"36": 16,
-	"37": 26,
-	"38": 20,
-	"40": 21
+	"26": 251,
+	"29": 165,
+	"31": 168,
+	"32": 239,
+	"33": 238,
+	"35": 185,
+	"36": 223,
+	"37": 224,
+	"38": 187,
+	"40": 188
 };
 
-if (rev == 2) {
-	pinMapping["3"] = 2;
-	pinMapping["5"] = 3;
-	pinMapping["13"] = 27;
-}
+// if (rev == 2) {
+// 	pinMapping["3"] = 2;
+// 	pinMapping["5"] = 3;
+// 	pinMapping["13"] = 27;
+// }
 
 function isNumber(number) {
 	return !isNaN(parseInt(number, 10));
@@ -124,7 +124,7 @@ function sanitizeOptions(options) {
 }
 
 var gpio = {
-	rev: rev,
+// 	rev: rev,
 
 	open: function(pinNumber, options, callback) {
 		pinNumber = sanitizePinNumber(pinNumber);
