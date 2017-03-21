@@ -12,6 +12,37 @@ if (fs.existsSync(sysFsPathNew)) {
 	sysFsPath = sysFsPathOld; // fallback for old kernels
 }
 
+var pinMapping = {
+	"3": 252,
+	"5": 253,
+	"7": 17,
+	"8": 161,
+	"10": 160,
+	"11": 164,
+	"12": 184,
+	"13": 166,
+	"15": 167,
+	"16": 162,
+	"18": 163,
+	"19": 257,
+	"21": 256,
+	"22": 171,
+	"23": 254,
+	"24": 255,
+	
+	// Model A+ and Model B+ pins
+	"26": 251,
+	"29": 165,
+	"31": 168,
+	"32": 239,
+	"33": 238,
+	"35": 185,
+	"36": 223,
+	"37": 224,
+	"38": 187,
+	"40": 188
+};
+
 describe("pi-gpio", function() {
 	describe(".open", function() {
 		it("should open without errors", function(done) {
@@ -30,7 +61,7 @@ describe("pi-gpio", function() {
 		});
 
 		it("should set the direction correctly", function(done) {
-			fs.readFile(sysFsPath + "/gpio23/direction", "utf8", function(err, data) {
+			fs.readFile(sysFsPath + "/gpio" + pinMapping[16] + "/direction", "utf8", function(err, data) {
 				should.not.exist(err);
 				data.trim().should.equal("out");
 				done();
@@ -52,7 +83,7 @@ describe("pi-gpio", function() {
 				gpio.setDirection(16, "input", function(err) {
 					should.not.exist(err);
 
-					fs.readFile(sysFsPath + "/gpio23/direction", "utf8", function(err, data) {
+					fs.readFile(sysFsPath + "/gpio" + pinMapping[16] + "/direction", "utf8", function(err, data) {
 						should.not.exist(err);
 						data.trim().should.equal("in");
 						done();
@@ -81,7 +112,7 @@ describe("pi-gpio", function() {
 				gpio.write(16, "1", function(err) {
 					should.not.exist(err);
 
-					fs.readFile(sysFsPath + "/gpio23/value", "utf8", function(err, data) {
+					fs.readFile(sysFsPath + "/gpio" + pinMapping[16] + "/value", "utf8", function(err, data) {
 						should.not.exist(err);
 						data.trim().should.equal("1");
 						done();
