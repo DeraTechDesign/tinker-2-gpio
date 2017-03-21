@@ -3,10 +3,7 @@ pi-gpio
 
 pi-gpio is a simple node.js based library to help access the GPIO of the Raspberry Pi (Debian Wheezy). It's modelled loosely around the built-in ``fs`` module.  
 It works with:
-* original Raspberry Pi (A and B)
-* model B revision 2 boards
-* Raspberry Pi Model A+
-* Raspberry Pi Model B+
+* ASUS Tinker Board
 
 ```javascript
 var gpio = require("pi-gpio");
@@ -326,17 +323,17 @@ If you haven't already, get node and npm on the Pi. The simplest way is:
 
 	sudo apt-get install nodejs npm
 
-The Raspberry Pi's GPIO pins require you to be root to access them. That's totally unsafe for several reasons. To get around this problem, you should use the excellent [gpio-admin](https://github.com/quick2wire/quick2wire-gpio-admin).
+The Raspberry Pi's GPIO pins require you to be root to access them. That's totally unsafe for several reasons. To get around this problem, you should use the excellent [GPIO_API_for_C](http://dlcdnet.asus.com/pub/ASUS/mb/Linux/Tinker_Board_2GB/GPIO_API_for_C.ZIP).
 
-Do the following on your raspberry pi:
+Do the following on your Tinker Board:
 
-	git clone git://github.com/quick2wire/quick2wire-gpio-admin.git
-	cd quick2wire-gpio-admin
-	make
-	sudo make install
-	sudo adduser $USER gpio
+	wget http://dlcdnet.asus.com/pub/ASUS/mb/Linux/Tinker_Board_2GB/GPIO_API_for_C.zip
+	unzip GPIO_API_for_C.zip
 
-After this, you will need to logout and log back in. [Details](http://quick2wire.com/2012/05/safe-controlled-access-to-gpio-on-the-raspberry-pi/), if you are interested.
+	cd GPIO_API_for_C/
+
+	sudo chmod +x build
+	sudo ./build
 
 Next, ``cd`` to your project directory and use npm to install pi-gpio in your project.
 
