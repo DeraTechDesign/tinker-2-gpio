@@ -1,20 +1,22 @@
 {
   "author": "Rakesh Pai <rakeshpai@gmail.com>",
-  "name": "pi-gpio",
-  "description": "A simple node.js-based GPIO helper for the Raspberry Pi",
+  "name": "tinker-gpio",
+  "description": "A simple node.js-based GPIO helper for the ASUS Tinker Board",
   "version": "0.0.8",
   "repository": {
     "type": "git",
-    "url": "git@github.com:rakeshpai/pi-gpio.git"
+    "url": "git@github.com:FrankWu100/tinker-gpio.git"
   },
-  "homepage": "https://github.com/rakeshpai/pi-gpio",
-  "main": "./pi-gpio",
+  "homepage": "https://github.com/FrankWu100/tinker-gpio",
+  "main": "./tinker-gpio",
   "bugs": {
-    "url": "https://github.com/rakeshpai/pi-gpio/issues"
+    "url": "https://github.com/FrankWu100/tinker-gpio/issues"
   },
   "tags": [
-    "raspberry",
-    "pi",
+    "tinker",
+    "tinker board",
+    "tinkeros",
+    "asus",
     "gpio",
     "simple"
   ],
