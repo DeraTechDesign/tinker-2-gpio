@@ -3,8 +3,6 @@ var fs = require("fs"),
 	path = require("path"),
 	exec = require("child_process").exec;
 
-import { watchFile } from 'node:fs';
-
 var sysFsPathOld = "/sys/devices/virtual/gpio", // pre 3.18.x kernel
 	sysFsPathNew = "/sys/class/gpio", // post 3.18.x kernel
 	sysFsPath;
@@ -175,7 +173,7 @@ var gpio = {
 
 	watch: function(pinNumber, callback) {
 		pinNumber = sanitizePinNumber(pinNumber);
-		watchFile(sysFsPath + "/gpio" + pinMapping[pinNumber] + "/value", (curr, prev) => {
+		fs.watchFile(sysFsPath + "/gpio" + pinMapping[pinNumber] + "/value", (curr, prev) => {
 			console.log("Curr: ", curr.mtime);
 			console.log("Curr: ", prev.mtime);
 			fs.readFile(sysFsPath + "/gpio" + pinMapping[pinNumber] + "/value", function(err, data) {
