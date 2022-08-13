@@ -3,6 +3,8 @@ var fs = require("fs"),
 	path = require("path"),
 	exec = require("child_process").exec;
 
+import { watchFile } from 'node:fs';
+
 var sysFsPathOld = "/sys/devices/virtual/gpio", // pre 3.18.x kernel
 	sysFsPathNew = "/sys/class/gpio", // post 3.18.x kernel
 	sysFsPath;
@@ -168,6 +170,18 @@ var gpio = {
 			if (err) return (callback || noop)(err);
 
 			(callback || noop)(null, parseInt(data, 10));
+		});
+	},
+
+	watch: function(pinNumber, callback) {
+		pinNumber = sanitizePinNumber(pinNumber);
+		watchFile(sysFsPath + "/gpio" + pinMapping[pinNumber] + "/value", (curr, prev) => {
+			console.log("Curr: ", curr.mtime);
+			console.log("Curr: ", prev.mtime);
+			fs.readFile(sysFsPath + "/gpio" + pinMapping[pinNumber] + "/value", function(err, data) {
+				if (err) return (callback || noop)(err);
+				(callback || noop)(null, parseInt(data, 10));
+			});
 		});
 	},
 
